@@ -1,12 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Draughts</title>
 </head>
 <body>
-    
+	<!-- The draughts board is represented using a table -->
+	<table id="board">
+		<tbody>
+			<!-- Each row has squares which are either black or white, and only black
+			     cells have IDs since a piece cannot land on a white cell. -->
+			<tr>
+				<td id="1" class="black"></td>
+				<td class="white"></td>
+				<td id="2" class="black"></td>
+				<td class="white"></td>
+				<td id="3" class="black"></td>
+				<td class="white"></td>
+				<td id="4" class="black"></td>
+				<td class="white"></td>
+				<td id="5" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="6" class="black"></td>
+				<td class="white"></td>
+				<td id="7" class="black"></td>
+				<td class="white"></td>
+				<td id="8" class="black"></td>
+				<td class="white"></td>
+				<td id="9" class="black"></td>
+				<td class="white"></td>
+				<td id="10" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="11" class="black"></td>
+				<td class="white"></td>
+				<td id="12" class="black"></td>
+				<td class="white"></td>
+				<td id="13" class="black"></td>
+				<td class="white"></td>
+				<td id="14" class="black"></td>
+				<td class="white"></td>
+				<td id="15" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="16" class="black"></td>
+				<td class="white"></td>
+				<td id="17" class="black"></td>
+				<td class="white"></td>
+				<td id="18" class="black"></td>
+				<td class="white"></td>
+				<td id="19" class="black"></td>
+				<td class="white"></td>
+				<td id="20" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="21" class="black"></td>
+				<td class="white"></td>
+				<td id="22" class="black"></td>
+				<td class="white"></td>
+				<td id="23" class="black"></td>
+				<td class="white"></td>
+				<td id="24" class="black"></td>
+				<td class="white"></td>
+				<td id="25" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="26" class="black"></td>
+				<td class="white"></td>
+				<td id="27" class="black"></td>
+				<td class="white"></td>
+				<td id="28" class="black"></td>
+				<td class="white"></td>
+				<td id="29" class="black"></td>
+				<td class="white"></td>
+				<td id="30" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="31" class="black"></td>
+				<td class="white"></td>
+				<td id="32" class="black"></td>
+				<td class="white"></td>
+				<td id="33" class="black"></td>
+				<td class="white"></td>
+				<td id="34" class="black"></td>
+				<td class="white"></td>
+				<td id="35" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="36" class="black"></td>
+				<td class="white"></td>
+				<td id="37" class="black"></td>
+				<td class="white"></td>
+				<td id="38" class="black"></td>
+				<td class="white"></td>
+				<td id="39" class="black"></td>
+				<td class="white"></td>
+				<td id="40" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="41" class="black"></td>
+				<td class="white"></td>
+				<td id="42" class="black"></td>
+				<td class="white"></td>
+				<td id="43" class="black"></td>
+				<td class="white"></td>
+				<td id="44" class="black"></td>
+				<td class="white"></td>
+				<td id="45" class="black"></td>
+				<td class="white"></td>
+			</tr>
+			<tr>
+				<td id="46" class="black"></td>
+				<td class="white"></td>
+				<td id="47" class="black"></td>
+				<td class="white"></td>
+				<td id="48" class="black"></td>
+				<td class="white"></td>
+				<td id="49" class="black"></td>
+				<td class="white"></td>
+				<td id="50" class="black"></td>
+				<td class="white"></td>
+			</tr>
+		</tbody>
+	</table>
+	<h1>Game History</h1>
+	<!-- The game/move history table is made up of 8 rows where the first column of each row is
+	     the number of moves ago it was, the second column is blues move, and the third is reds
+	     move. -->
+	<table>
+		<tr>
+			<td class="turn-no">8</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">7</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">6</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">5</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">4</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">3</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">2</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="turn-no">1</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<div class="resign">
+		<p>Resign</p>
+	</div>
 </body>
 </html>
