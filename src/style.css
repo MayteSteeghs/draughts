@@ -1,0 +1,99 @@
+:root {
+	--light-blue: #B3E0F2;
+	--dark-blue: #204C6D;
+}
+
+.container {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	/* Take up half of the screen */
+	position: absolute;
+	height: 100%;
+	width: 50%;
+
+	/* Center all child elements */
+	display: flex;
+	align-items: center;
+}
+
+.left {
+	justify-content: center;
+}
+
+.right {
+	/* Take up the right side of the screen */
+	margin-left: 50%;
+	flex-direction: column;
+}
+
+#outer-board {
+	border: 8px black solid;
+	border-spacing: 8px;
+	height: 80%;
+}
+
+#board {
+ 	border-collapse: collapse; /* Make all the cells snap together */
+ 	height: 100%;              /* Make sure height == width */
+}
+
+#board td {
+	height: 70px;
+	width: 70px;
+}
+
+#board tr:nth-child(even) td:nth-child(even), #board tr:nth-child(odd) td:nth-child(odd) {
+	background: black;
+}
+
+#vertical-rule {
+	position: absolute;
+	height: 80%;
+	border-left: 6px solid var(--light-blue);
+	left: calc(50% - 3px); /* -3px offset because the left border is 6px */
+
+	/* Vertically center */
+	top: 0;
+	bottom: 0;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+#history-title {
+	margin-top: 10%;
+	margin-bottom: 5%;
+}
+
+#history {
+	border-collapse: collapse;
+}
+
+#history tr td {
+	text-align: center;
+	height: 40px;
+	width: 80px;
+	font-size: 1.2em;
+}
+
+.turn-no {
+	border-right: 3px solid var(--light-blue);
+}
+
+#resign {
+	margin-top: 5%;
+	background-color: var(--dark-blue);
+	text-align: center;
+	width: 400px;
+}
+
+#resign p {
+	/* TODO: Make fonts work */
+	font-family: "Saira Condensed";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 1.5em;
+	color: white;
+}
