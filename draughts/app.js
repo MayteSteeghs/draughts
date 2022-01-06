@@ -1,8 +1,6 @@
 const express = require("express");
 const http = require("http");
-
 const indexRouter = require("./routes/index");
-const messages = require("./public/javascripts/messages");
 
 const port = process.argv[2];
 const app = express();
