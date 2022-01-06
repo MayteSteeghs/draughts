@@ -49,6 +49,41 @@
 	background: black;
 }
 
+.top-pad {
+	height: 10px;
+}
+
+.circle-outer, .circle-inner {
+	border-radius: 50%;
+}
+
+.circle-outer {
+	height: 70px;
+	width: 70px;
+}
+
+.circle-inner {
+	width: 50px;
+	height: 50px;
+	margin-left: 10px;
+}
+
+.blue-outer-circle {
+	background: #204C6D;
+}
+
+.red-outer-circle {
+	background: #803B2F;
+}
+
+.blue-inner-circle {
+	background: #007BBD;
+}
+
+.red-inner-circle {
+	background: #9E3C2F;
+}
+
 #vertical-rule {
 	position: absolute;
 	height: 80%;
@@ -86,7 +121,7 @@
 	margin-top: 5%;
 	background-color: var(--dark-blue);
 	text-align: center;
-	width: 400px;
+	width: 30%;
 }
 
 #resign p {
@@ -96,4 +131,19 @@
 	font-weight: normal;
 	font-size: 1.5em;
 	color: white;
+}
+
+#blue-bar, #red-bar {
+	height: 8px;
+	width: 80%;
+	margin-top: 10%;
+	margin-left: 10%;
+}
+
+#blue-bar {
+	background-color: #007BBD;
+}
+
+#red-bar {
+	background-color: #9E3C2F;
 }
