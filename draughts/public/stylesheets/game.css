@@ -32,17 +32,22 @@
 #outer-board {
 	border: 8px black solid;
 	border-spacing: 8px;
-	height: 80%;
+	height: calc(7vmin * 10);
 }
 
 #board {
  	border-collapse: collapse; /* Make all the cells snap together */
- 	height: 100%;              /* Make sure height == width */
+ 	height: calc(7vmin * 10);  /* Make sure height == width */
+}
+
+#board tr {
+	display: table;
 }
 
 #board td {
-	height: 70px;
-	width: 70px;
+	height: 7vmin;
+	width: 7vmin;
+	display: inline-block;
 }
 
 #board tr:nth-child(even) td:nth-child(even), #board tr:nth-child(odd) td:nth-child(odd) {
@@ -50,7 +55,7 @@
 }
 
 .top-pad {
-	height: 10px;
+	height: 1vmin;
 }
 
 .circle-outer, .circle-inner {
@@ -58,14 +63,14 @@
 }
 
 .circle-outer {
-	height: 70px;
-	width: 70px;
+	height: 7vmin;
+	width: 7vmin;
 }
 
 .circle-inner {
-	width: 50px;
-	height: 50px;
-	margin-left: 10px;
+	width: 5vmin;
+	height: 5vmin;
+	margin-left: 1vmin;
 }
 
 .blue-outer-circle {
