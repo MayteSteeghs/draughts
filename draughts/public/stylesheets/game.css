@@ -1,101 +1,103 @@
+/* Ensure we always have good fonts */
+@import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
+
+/* Set some colors */
 :root {
 	--light-blue: #B3E0F2;
+	--blue: #007BBD;
 	--dark-blue: #204C6D;
+	--darker-blue: #302C5D;
+	--red: #9E3C2F;
 }
 
-.container {
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+body {
+	/* Set the default font */
+	font-family: "Saira Condensed";
 
-	/* Take up half of the screen */
-	position: absolute;
-	height: 100%;
+	/* Remove the margin on the sides of the screen */
+	margin: 0;
+}
+
+body > div {
+	/* Take up exactly half the screen */
 	width: 50%;
+	height: 100%;
+	position: absolute;
 
-	/* Center all child elements */
+	/* Center all children */
 	display: flex;
 	align-items: center;
 }
 
-.left {
+#left {
+	/* Center all elements on the left side of the screen */
 	justify-content: center;
 }
 
-.right {
+#right {
 	/* Take up the right side of the screen */
-	margin-left: 50%;
+	right: 0;
+
+	/* Stack all elements on the right of the screen */
 	flex-direction: column;
 }
 
-#outer-board {
-	border: 8px black solid;
-	border-spacing: 8px;
-	height: calc(7vmin * 10);
+#board-border {
+	/* Make the board border take up the same space as the board, +32px so that we can have a
+	 * visible gap between the board and its border
+	 */
+	width: calc(70% + 32px);
+	padding-top: calc(70% + 32px);
+	position: relative;
+
+	border: 8px solid black;
+}
+
+#board-container {
+	/* Take up the full space of the board border besides a padding of 32px */
+	width: calc(100% - 32px);
+	padding-top: calc(100% - 32px);
+
+	/* Center the board within the border */
+	top: 16px;
+	left: 16px;
+	position: absolute;
+}
+
+#board-container > * {
+	/* Set the initial positions of all the elements within the board container to the upper left
+	 * corner
+	 */
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 #board {
- 	border-collapse: collapse; /* Make all the cells snap together */
- 	height: calc(7vmin * 10);  /* Make sure height == width */
+	/* Make the board take up the full space of the container */
+	height: 100%;
+	width: 100%;
 }
 
-#board tr {
-	display: table;
-}
-
-#board td {
-	height: 7vmin;
-	width: 7vmin;
-	display: inline-block;
-}
-
-#board tr:nth-child(even) td:nth-child(even), #board tr:nth-child(odd) td:nth-child(odd) {
-	background: black;
-}
-
-.top-pad {
-	height: 1vmin;
-}
-
-.circle-outer, .circle-inner {
-	border-radius: 50%;
-}
-
-.circle-outer {
-	height: 7vmin;
-	width: 7vmin;
-}
-
-.circle-inner {
-	width: 5vmin;
-	height: 5vmin;
-	margin-left: 1vmin;
-}
-
-.blue-outer-circle {
-	background: #204C6D;
-}
-
-.red-outer-circle {
-	background: #803B2F;
-}
-
-.blue-inner-circle {
-	background: #007BBD;
-}
-
-.red-inner-circle {
-	background: #9E3C2F;
+.piece {
+	/* The board is 10x10, so each piece should take up 10% of the container */
+	width: 10%;
+	height: 10%;
 }
 
 #vertical-rule {
-	position: absolute;
+	/* Place the vertical rule somewhere between the left and right sections of the screen
+	 * but slightly to the right
+	 */
+	width: 6px;
 	height: 80%;
-	border-left: 6px solid var(--light-blue);
-	left: calc(50% - 3px); /* -3px offset because the left border is 6px */
+	position: absolute;
+	left: calc(57%);
 
-	/* Vertically center */
+	/* Give it a color */
+	background-color: var(--light-blue);
+
+	/* Vertically center the vertical rule */
 	top: 0;
 	bottom: 0;
 	margin-top: auto;
@@ -103,35 +105,45 @@
 }
 
 #history-title {
+	font-size: 4em;
 	margin-top: 10%;
 	margin-bottom: 5%;
 }
 
 #history {
+	/* Connect the borders of the cells */
 	border-collapse: collapse;
 }
 
 #history tr td {
+	/* Align the text in the center and make everything readable */
 	text-align: center;
 	height: 40px;
 	width: 80px;
-	font-size: 1.2em;
+	font-size: 1.5em;
 }
 
 .turn-no {
+	/* Add a light-blue border between the turn number and the moves */
 	border-right: 3px solid var(--light-blue);
 }
 
 #resign {
+	/* Make the resign button nice and big */
 	margin-top: 5%;
 	background-color: var(--dark-blue);
 	text-align: center;
 	width: 30%;
 }
 
+#resign:hover {
+	/* Make the resign button darker and add an outline when you hover over it */
+	border: 3px grey solid;
+	background-color: var(--darker-blue);
+}
+
 #resign p {
-	/* TODO: Make fonts work */
-	font-family: "Saira Condensed";
+	/* Make the resign text look nice */
 	font-style: normal;
 	font-weight: normal;
 	font-size: 1.5em;
@@ -139,6 +151,7 @@
 }
 
 #blue-bar, #red-bar {
+	/* Add bars above the table to signify which player each column corresponds to */
 	height: 8px;
 	width: 80%;
 	margin-top: 10%;
@@ -146,9 +159,43 @@
 }
 
 #blue-bar {
-	background-color: #007BBD;
+	background-color: var(--blue);
 }
 
 #red-bar {
-	background-color: #9E3C2F;
+	background-color: var(--red);
+}
+
+#delta-table {
+	/* Make the table tall and wide enough, and give it some spacing from the board */
+	height: 10%;
+	width: 15%;
+	margin-right: 2%;
+
+	/* Give it a nice border */
+	border: 4px black solid;
+}
+
+#delta-table tr {
+	/* Vertically align the text with the pieces */
+	vertical-align: top;
+}
+
+#delta-table td {
+	/* Ensure the cells take up half of the table each */
+	width: 50%;
+}
+
+.delta-text {
+	/* Make the text readable */
+	text-align: center;
+	font-size: 2em;
+}
+
+.delta-img {
+	/* Make the pieces slightly transparent, and make them take up the full space of the
+	 * container
+	 */
+	opacity: 0.7;
+	height: 100%;
 }

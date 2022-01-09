@@ -1,354 +1,78 @@
-<!-- -*- tab-width: 4 -*- -->
+<!-- -*- sgml-basic-offset: 4; tab-width: 4; evil-shift-width: 4 -*- -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="stylesheets/game.css">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="stylesheets/game.css" />
 	<title>Draughts</title>
 </head>
 <body>
-	<div class="container left">
-		<!-- <div id="score"> -->
-		<!-- 	<p>+0</p> -->
-		<!-- 	<img src=path> -->
-		<!-- 	<p>+0</p> -->
-		<!-- 	<img src=path> -->
-		<!-- </div> -->
-		<!-- The draughts board is represented using a table, the outer table allows us to have the
-			fancy spaced-out table border. -->
-		<table id="outer-board">
-			<td>
-				<table id="board">
-					<!-- Each row has squares which are either black or white, and only
-					     black cells have IDs since a piece cannot land on a white cell.
-					     -->
+	<div id="left">
+		<table id="delta-table">
+			<tbody>
 				<tr>
-						<td id="1">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="2">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="3">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="4">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="5">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td id="6">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="7">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="8">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="9">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="10">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td id="11">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="12">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="13">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="14">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="15">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td id="16">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="17">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="18">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="19">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="20">
-							<div class="circle-outer blue-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner blue-inner-circle"></div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td id="21"></td>
-						<td></td>
-						<td id="22"></td>
-						<td></td>
-						<td id="23"></td>
-						<td></td>
-						<td id="24"></td>
-						<td></td>
-						<td id="25"></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td id="26"></td>
-						<td></td>
-						<td id="27"></td>
-						<td></td>
-						<td id="28"></td>
-						<td></td>
-						<td id="29"></td>
-						<td></td>
-						<td id="30"></td>
-					</tr>
-					<tr>
-						<td id="31">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="32">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="33">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="34">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="35">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td id="36">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="37">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="38">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="39">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="40">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td id="41">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="42">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="43">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="44">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="45">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td id="46">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="47">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="48">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="49">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-						<td></td>
-						<td id="50">
-							<div class="circle-outer red-outer-circle">
-								<div class="top-pad"></div>
-								<div class="circle-inner red-inner-circle"></div>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</td>
+					<td class="delta-text" id="delta-blue">+0</td>
+					<td><img class="delta-img" src="images/bluepiece.svg" /></td>
+				</tr>
+				<tr>
+					<td class="delta-text" id="delta-red">+0</td>
+					<td><img class="delta-img" src="images/redpiece.svg" /></td>
+				</tr>
+			</tbody>
 		</table>
+
+		<section id="board-border">
+			<section id="board-container">
+				<img id="board" src="images/board.svg" />
+				<!-- The transform styles set the initial positions of the pieces, these will get
+					 updated during the game -->
+				<img class="piece" id="b1"  style="transform: translate(000%, 000%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b2"  style="transform: translate(200%, 000%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b3"  style="transform: translate(400%, 000%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b4"  style="transform: translate(600%, 000%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b5"  style="transform: translate(800%, 000%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b6"  style="transform: translate(100%, 100%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b7"  style="transform: translate(300%, 100%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b8"  style="transform: translate(500%, 100%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b9"  style="transform: translate(700%, 100%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b10" style="transform: translate(900%, 100%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b11" style="transform: translate(000%, 200%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b12" style="transform: translate(200%, 200%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b13" style="transform: translate(400%, 200%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b14" style="transform: translate(600%, 200%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b15" style="transform: translate(800%, 200%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b16" style="transform: translate(100%, 300%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b17" style="transform: translate(300%, 300%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b18" style="transform: translate(500%, 300%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b19" style="transform: translate(700%, 300%);" src="images/bluepiece.svg" />
+				<img class="piece" id="b20" style="transform: translate(900%, 300%);" src="images/bluepiece.svg" />
+				<img class="piece" id="r1"  style="transform: translate(000%, 600%);" src="images/redpiece.svg" />
+				<img class="piece" id="r2"  style="transform: translate(200%, 600%);" src="images/redpiece.svg" />
+				<img class="piece" id="r3"  style="transform: translate(400%, 600%);" src="images/redpiece.svg" />
+				<img class="piece" id="r4"  style="transform: translate(600%, 600%);" src="images/redpiece.svg" />
+				<img class="piece" id="r5"  style="transform: translate(800%, 600%);" src="images/redpiece.svg" />
+				<img class="piece" id="r6"  style="transform: translate(100%, 700%);" src="images/redpiece.svg" />
+				<img class="piece" id="r7"  style="transform: translate(300%, 700%);" src="images/redpiece.svg" />
+				<img class="piece" id="r8"  style="transform: translate(500%, 700%);" src="images/redpiece.svg" />
+				<img class="piece" id="r9"  style="transform: translate(700%, 700%);" src="images/redpiece.svg" />
+				<img class="piece" id="r10" style="transform: translate(900%, 700%);" src="images/redpiece.svg" />
+				<img class="piece" id="r11" style="transform: translate(000%, 800%);" src="images/redpiece.svg" />
+				<img class="piece" id="r12" style="transform: translate(200%, 800%);" src="images/redpiece.svg" />
+				<img class="piece" id="r13" style="transform: translate(400%, 800%);" src="images/redpiece.svg" />
+				<img class="piece" id="r14" style="transform: translate(600%, 800%);" src="images/redpiece.svg" />
+				<img class="piece" id="r15" style="transform: translate(800%, 800%);" src="images/redpiece.svg" />
+				<img class="piece" id="r16" style="transform: translate(100%, 900%);" src="images/redpiece.svg" />
+				<img class="piece" id="r17" style="transform: translate(300%, 900%);" src="images/redpiece.svg" />
+				<img class="piece" id="r18" style="transform: translate(500%, 900%);" src="images/redpiece.svg" />
+				<img class="piece" id="r19" style="transform: translate(700%, 900%);" src="images/redpiece.svg" />
+				<img class="piece" id="r20" style="transform: translate(900%, 900%);" src="images/redpiece.svg" />
+			</section>
+		</section>
 	</div>
-	<div class="container right">
+
+	<div id="right">
 		<h1 id="history-title">Move History</h1>
 		<!-- The game/move history table is made up of 8 rows where the first column of each
 		     row is the number of moves ago it was, the second column is blues move, and the
