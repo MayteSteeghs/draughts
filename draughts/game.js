@@ -26,12 +26,12 @@ const boardInit = () => [
  * history and the websockets of both players.
  */
 const Game = function(gameID) {
-    this.id = gameID
-    this.board = boardInit()
-    this.ongoing = false
+	this.id = gameID
+	this.board = boardInit()
+	this.ongoing = false
 	this.bluePlayer = null
 	this.redPlayer = null
-    this.history = [] /* [ { blue: "42x31", red: "19-24" }, ... ] */
+	this.history = [] /* [ { blue: "42x31", red: "19-24" }, ... ] */
 }
 
 /* Send the message `msg' to both players */
