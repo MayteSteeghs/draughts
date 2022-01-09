@@ -4,6 +4,7 @@
 const environment = {
 	minimumMoves: Infinity,
 	averageMoves: Infinity,
+	totalGames: 0,
 	games: []
 }
 
