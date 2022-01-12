@@ -34,7 +34,7 @@ const addMarker = ({ x, y, captures }) => {
 		/* Get the ID of the selected piece so we can include it in the message to the server */
 		let id = selectedPiece.id.slice(1)
 
-		captures.forEach(p => document.getElementById(opponentPrefix + p.id).remove())
+		removeCaptures(captures, opponentPrefix)
 		
 		/* Move the selected piece, unselect it, remove the markers, and end our turn */
 		selectedPiece.style.transform = img.style.transform
@@ -57,10 +57,16 @@ const addMarker = ({ x, y, captures }) => {
 	})
 }
 
+const removeCaptures = (captures, color) => {
+	captures.forEach(p => document.getElementById(color + p.id).remove())
+	let node = document.getElementById(color == "b" ? "delta-red" : "delta-blue")
+	node.innerHTML = `+${Number(node.innerHTML) + captures.length}`
+}
+
 const movePiece = ({ id, position, captures }) => {
 	document.getElementById(opponentPrefix + id).style.transform =
 		`translate(${position.x * 100}%, ${position.y * 100}%)`
-	captures.forEach(p => document.getElementById(colorPrefix + p.id).remove())
+	removeCaptures(captures, colorPrefix)
 }
 
 const setupPieceEventListeners = () => {
