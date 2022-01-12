@@ -3,8 +3,9 @@ const WebSocket = require("ws")
 const Express = require("express")
 
 const Game = require("./game")
+const Messages = require("./public/javascripts/messages")
+const Environment = require("./environment")
 const indexRouter = require("./routes/index")
-const env = require("./environment")
 
 /* Get the server port, if the user doesn't provide one then print an error to STDERR and exit */
 const port = process.argv[2]
@@ -23,19 +24,25 @@ app.use(Express.static(__dirname + "/public"))
 const server = Http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
+/* Initialize the environment */
+let env = new Environment()
+
 wss.on("connection", ws => {
 	/* When a new client connects, get the first game whos status is pending and add the client to
 	 * that game. If there is no such game, then create a new one which will wait for a second client
 	 * to join.
 	 */
-	let game = env.games.filter(g => g.ongoing)[0]
+	let game = env.games.filter(g => !g.ongoing)[0]
 	if (!game) {
 		game = new Game(env.games.length) /* The number of games servers as a unique game ID */
 		env.games.push(game)
 		game.bluePlayer = ws
+		game.messageClient({ head: Messages.WELCOME, body: "b" }, ws)
 	} else {
 		game.redPlayer = ws
-		game.messageAll("START")
+		game.ongoing = true
+		game.messageClient({ head: Messages.WELCOME, body: "r" }, ws)
+		game.nextTurn()
 	}
 
 	/* When a client disconnects, check if the game they were part of was ongoing (the game could
@@ -45,8 +52,31 @@ wss.on("connection", ws => {
 	 */
 	ws.on("close", () => {
 		if (game.ongoing)
-			(ws == game.bluePlayer ? game.redPlayer : game.bluePlayer).send("DISCONNECT")
-		env.games = env.games.filter(g => g != game)
+			game.messageOpponent({ head: Messages.DISCONNECT }, ws)
+		env.removeGame(game)
+	})
+
+	ws.on("message", msg => {
+		msg = JSON.parse(msg)
+		switch (msg.head) {
+		case Messages.RESIGN:
+			if (game.ongoing)
+				game.messageOpponent(msg, ws)
+			env.removeGame(game)
+			break
+		case Messages.MOVED:
+			game.messageOpponent({
+				head: Messages.MOVED,
+				body: {
+					id: msg.body.id,
+					position: msg.body.new,
+					captures: msg.body.captures
+				}
+			}, ws)
+			game.move(msg.body)
+			game.nextTurn()
+			break
+		}
 	})
 })
 

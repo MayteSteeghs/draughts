@@ -199,3 +199,8 @@ body > div {
 	opacity: 0.7;
 	height: 100%;
 }
+
+.position:hover {
+	cursor: click;
+	background-color: grey;
+}
