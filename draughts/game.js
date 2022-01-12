@@ -211,7 +211,7 @@ Game.prototype.messageClient = function(msg, ws) {
 
 /*
  * Signature:
- *     (Nothing) => { x: Number, y: Number, captures: Piece[] }[]
+ *     () => { x: Number, y: Number, captures: Piece[] }[]
  *
  * Description:
  *     Return all of the moves that can legally be made on the current turn of the game. The format
@@ -253,7 +253,7 @@ Game.prototype.legalMoves = function() {
 
 /*
  * Signature:
- *     (Nothing) => Nothing
+ *     () => Nothing
  *
  * Description:
  *     Initiate the next turn of the game. This is done by swapping the player that the `currentTurn'
