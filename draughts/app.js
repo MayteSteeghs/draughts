@@ -3,6 +3,7 @@ const WebSocket = require("ws")
 const Express = require("express")
 
 const Game = require("./game")
+const Color = require("./public/javascripts/color")
 const Messages = require("./public/javascripts/messages")
 const Environment = require("./environment")
 const indexRouter = require("./routes/index")
@@ -37,11 +38,11 @@ wss.on("connection", ws => {
 		game = new Game(env.games.length) /* The number of games servers as a unique game ID */
 		env.games.push(game)
 		game.bluePlayer = ws
-		game.messageClient({ head: Messages.WELCOME, body: "b" }, ws)
+		game.messageClient({ head: Messages.WELCOME, body: Color.BLUE }, ws)
 	} else {
 		game.redPlayer = ws
 		game.ongoing = true
-		game.messageClient({ head: Messages.WELCOME, body: "r" }, ws)
+		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
 		game.nextTurn()
 	}
 

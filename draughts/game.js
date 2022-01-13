@@ -1,7 +1,7 @@
 const WebSocket = require("ws")
 
-const Color = require("./color")
 const Piece = require("./piece")
+const Color = require("./public/javascripts/color")
 const Messages = require("./public/javascripts/messages")
 
 /*

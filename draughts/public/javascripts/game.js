@@ -5,8 +5,9 @@ const ws = new WebSocket("ws://localhost:3000")
 let legalMoves,    // Array of moves :: Moves that each piece can legally make
 	ourTurn,       // Boolean        :: Is it currently our turn?
 	selectedPiece, // Piece          :: The current HTML piece we have selected
-	colorPrefix,   // Character      :: Either 'b' or 'r' depending on the clients side
-	opponentPrefix // Character      :: The inverse of `colorPrefix'
+	colorPrefix    // Color          :: Either Color.BLUE or Color.RED depending on the clients side
+
+const opponentPrefix = () => colorPrefix == Color.BLUE ? Color.RED : Color.BLUE
 
 /* Remove all the position markers from the board */
 const removeMarkers = () => Array
@@ -34,7 +35,7 @@ const addMarker = ({ x, y, captures }) => {
 		/* Get the ID of the selected piece so we can include it in the message to the server */
 		let id = selectedPiece.id.slice(1)
 
-		removeCaptures(captures, opponentPrefix)
+		removeCaptures(captures, opponentPrefix())
 		
 		/* Move the selected piece, unselect it, remove the markers, and end our turn */
 		selectedPiece.style.transform = img.style.transform
@@ -59,12 +60,12 @@ const addMarker = ({ x, y, captures }) => {
 
 const removeCaptures = (captures, color) => {
 	captures.forEach(p => document.getElementById(color + p.id).remove())
-	let node = document.getElementById(color == "b" ? "delta-red" : "delta-blue")
+	let node = document.getElementById(color == Color.BLUE ? "delta-red" : "delta-blue")
 	node.innerHTML = `+${Number(node.innerHTML) + captures.length}`
 }
 
 const movePiece = ({ id, position, captures }) => {
-	document.getElementById(opponentPrefix + id).style.transform =
+	document.getElementById(opponentPrefix() + id).style.transform =
 		`translate(${position.x * 100}%, ${position.y * 100}%)`
 	removeCaptures(captures, colorPrefix)
 }
@@ -101,7 +102,6 @@ ws.addEventListener("message", ({ data }) => {
 	switch (data.head) {
 	case Messages.WELCOME:
 		colorPrefix = data.body
-		opponentPrefix = colorPrefix == "b" ? "r" : "b"
 		setupPieceEventListeners()
 		break
 	case Messages.RESIGN:
