@@ -53,14 +53,44 @@ const inBounds = (x, y) => x >= 0 && x <= 9 && y >= 0 && y <= 9
 
 /*
  * Signature:
- *     (Piece, Piece[][]) => { x: Number, y: Number, captures: [] }[]
+ *     ({ x: Number, y: Number }, { x: Number, y: Number }, Piece[][], Optional Boolean) => Boolean
+ *
+ * Description:
+ *     Check if all the board squares between the starting position `s' and the ending position `e'
+ *     are empty on the board `board'. This is used to validate moves, as you cannot simply jump over
+ *     another piece. The function takes an optional parameter `ignoreLast' which if set to `true'
+ *     will ignore the last piece in the chain. This let's the function be used for calculating legal
+ *     captures where the last square will obviously be a piece.
+ */
+const allEmpty = (s, e, board, ignoreLast) => {
+	let dx = e.x > s.x ? 1 : -1
+	let dy = e.y > s.y ? 1 : -1
+
+	let pieces = []
+	let [x, y] = [s.x, s.y]
+
+	while (x != e.x && y != e.y) {
+		x += dx
+		y += dy
+		pieces.push(board[y][x])
+	}
+	if (ignoreLast)
+		pieces.pop()
+
+	return pieces.every(p => p == null)
+}
+
+/*
+ * Signature:
+ *     (Piece, Piece[][]) => { x: Number, y: Number, captures: [], king: Boolean }[]
  *
  * Description:
  *     Find and return all of the valid moves that the piece `p' can make on the board `board' which
  *     do not capture any pieces. The moves are returned as an array of objects where each object has
  *     an `x', `y', and `captures' field. The `x' and `y' fields specify the new location of the
  *     piece `p' on the board if the user chooses to make the move. The `captures' field is unused in
- *     this function so an empty array is assigned to it.
+ *     this function so an empty array is assigned to it. The `king' field specifies if the piece
+ *     became a king as a result of the move.
  */
 const nonCapturingMoves =
 	  /* Get all the possible moves we can make by calling the `Piece.nonCapturingMoves()' method.
@@ -75,20 +105,22 @@ const nonCapturingMoves =
 	   * correct format so that they can be processed by the calling function.
 	   */
 	  (p, board) => p.nonCapturingMoves()
-					 .filter(([x, y]) => inBounds(x, y) && !board[y][x])
-					 .map(([x, y]) => { return { x: x, y: y, captures: [] } })
+					 .filter(([x, y]) => inBounds(x, y) && allEmpty(p.position, { x: x, y: y }, board))
+					 .map(([x, y]) => { return { x: x, y: y, captures: [],
+												 king: p.isKing
+												 || (p.color == Color.BLUE ? y == 9 : y == 0) } })
 
-/**
+/*
  * Signature:
- *     (Piece, { x: Number, y: Number, captures: Piece[] }[], Piece[][]) => { x: Number, y: Number,
- *                                                                            captures: Piece[] }[]
+ *     (Piece, Piece[], Piece[][]) => { x: Number, y: Number, captures: Piece[], king: Boolean }[]
  *
  * Description:
  *     Recursively find and return all of the valid moves that the piece `p' can make on the board
  *     `board' which captures atleast one piece. The moves are returned in the same format as they
  *     are in the `nonCapturingMoves()' function except this time the `captures' field is actually
  *     used. The `captures' field is an array of Piece objects which will be captured in the case
- *     that the user chooses to make the move.
+ *     that the user chooses to make the move. The `king' field specifies if the piece `p' became a
+ *     king piece as a result of the capture sequence.
  */
 const capturingMoves = (p, captures, board) => {
 	/* Get all the possible moves we can make. This is done by calling `p.capturingMoves()' to get
@@ -100,12 +132,15 @@ const capturingMoves = (p, captures, board) => {
 	 *  - The square we skip over actually had a piece to capture
 	 *  - The piece we captured is of the opposing player
 	 *  - The square where our piece ends up in is not occupied
+	 *  - All the squares between the current position and the captured piece are empty
 	 */
 	const moves = p.capturingMoves()
 				   .filter(({ landed, skipped }) => inBounds(landed.x, landed.y)
 													&& board[skipped.y][skipped.x]
 													&& !board[skipped.y][skipped.x].sameTeam(p)
-													&& !board[landed.y][landed.x])
+													&& !board[landed.y][landed.x]
+													&& allEmpty({ x: p.position.x, y: p.position.y },
+																skipped, board, true))
 
 	/* Check to see if any valid moves were found. If no moves were found then we have reached the
 	 * end of our chain of captures, or in other words, we have reached the algorithms base case. In
@@ -118,7 +153,7 @@ const capturingMoves = (p, captures, board) => {
 	 */
 	if (moves.length == 0)
 		return captures.length > 0
-			? [{ x: p.position.x, y: p.position.y, captures: captures }]
+			? [{ x: p.position.x, y: p.position.y, captures: captures, king: p.isKing }]
 			: []
 
 	/* Now we get to the fun part. For each of the moves in `moves' we first concatenate the piece
@@ -128,18 +163,25 @@ const capturingMoves = (p, captures, board) => {
 	 * update the position of the piece `p' to it's new position after performing the capture.
 	 * Finally we recursively call the function with `p', `c', and `board' which will return to us an
 	 * array of possible moves. These arrays are then all accumulated in an accumulator and returned.
+	 *
+	 * We also need to perform a check to see if we are on the promotion line (the back row). In this
+	 * case we must remember to promote the piece to a king.
 	 */
 	return moves.reduce((acc, { landed, skipped }) => {
 		const c = captures.concat(board[skipped.y][skipped.x])
 		board[skipped.y][skipped.x] = null
 		p.position = landed
+
+		if (p.color == Color.BLUE ? p.position.y == 9 : p.position.y == 0)
+			p.isKing = true
+		
 		return acc.concat(capturingMoves(p, c, board))
 	}, [])
 }
 
 /*
  * Signature:
- *     (Piece, Piece[][]) => { x: Number, y: Number, captures: Piece[] }[]
+ *     (Piece, Piece[][]) => { x: Number, y: Number, captures: Piece[], king: Boolean }[]
  *
  * Description:
  *     A wrapper function around `nonCapturingMoves()' and `capturingMoves()' which simply calls the
@@ -147,8 +189,11 @@ const capturingMoves = (p, captures, board) => {
  *     is given a brand new instance of `Piece' instead of just taking `p' as an argument as we want
  *     to avoid making any changes to `p'.
  */
-const calculateMoves = (p, board) => nonCapturingMoves(p, board).concat(
-	capturingMoves(new Piece(p.position.x, p.position.y, p.id, p.color), [], deepCopy(board)))
+const calculateMoves = (p, board) => {
+	let npiece = new Piece(p.position.x, p.position.y, p.id, p.color)
+	npiece.isKing = p.isKing
+	return nonCapturingMoves(p, board).concat(capturingMoves(npiece, [], deepCopy(board)))
+}
 
 /*
  * Signature:
@@ -211,7 +256,7 @@ Game.prototype.messageClient = function(msg, ws) {
 
 /*
  * Signature:
- *     () => { x: Number, y: Number, captures: Piece[] }[]
+ *     () => { x: Number, y: Number, captures: Piece[], king: Boolean }[]
  *
  * Description:
  *     Return all of the moves that can legally be made on the current turn of the game. The format
@@ -276,21 +321,21 @@ Game.prototype.nextTurn = function() {
 
 /*
  * Signature:
- *     ({ old: { x: Number, y: Number },
- *        new: { x: Number, y: Number },
- *        captures: Piece[]             }) => Nothing
+ *     ({ old: { x: Number, y: Number }, new: { x: Number, y: Number }, captures: Piece[],
+ *                                                                      king: Boolean }) => Nothing
  *
  * Description:
  *     Update the games board with the move that was just sent from the client in the message `msg'.
- *     The message only has 3 fields that matter to us, the `old', `new', and `captures' fields. The
- *     `old' and `new' fields contain the old and new positions of the piece that was moved. The
- *     `captures' field holds an array of `Piece' objects that were captures and need to be removed
- *     from the game.
+ *     The message only has 4 fields that matter to us, the `old', `new', `captures', and `king'
+ *     fields. The `old' and `new' fields contain the old and new positions of the piece that was
+ *     moved. The `captures' field holds an array of `Piece' objects that were captures and need to
+ *     be removed from the game. The `king' field tells us if the piece got promoted to a king.
  */
 Game.prototype.move = function(msg) {
 	this.board[msg.new.y][msg.new.x] = this.board[msg.old.y][msg.old.x]
-	this.board[msg.old.y][msg.old.x] = null
 	this.board[msg.new.y][msg.new.x].position = msg.new
+	this.board[msg.new.y][msg.new.x].isKing = msg.king
+	this.board[msg.old.y][msg.old.x] = null
 	msg.captures.forEach(c => this.board[c.position.y][c.position.x] = null)
 }
 

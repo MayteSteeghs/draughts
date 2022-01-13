@@ -1,3 +1,8 @@
+const Color = {
+	BLUE: "b",
+	RED:  "r"
+}
+
 /* Initialize a new web socket to connect to the server */
 const ws = new WebSocket("ws://localhost:3000")
 
@@ -15,7 +20,7 @@ const removeMarkers = () => Array
 							.forEach(pos => pos.remove())                      // Remove them all
 
 /* Add a position marker to the position specified by the given coordinates */
-const addMarker = ({ x, y, captures }) => {
+const addMarker = ({ x, y, captures, king }) => {
 	/* Create and add the marker */
 	let img = document.createElement("img")                     // Create a new image element
 	img.className = "piece position"                            // Add it to the correct classes
@@ -38,6 +43,8 @@ const addMarker = ({ x, y, captures }) => {
 		removeCaptures(captures, opponentPrefix())
 		
 		/* Move the selected piece, unselect it, remove the markers, and end our turn */
+		if (king)
+			selectedPiece.src = selectedPiece.src.replace("piece.svg", "piece-king.svg")
 		selectedPiece.style.transform = img.style.transform
 		selectedPiece = null
 		ourTurn = false
@@ -52,7 +59,8 @@ const addMarker = ({ x, y, captures }) => {
 				id: id,
 				old: { x: ox, y: oy },
 				new: { x: x, y: y },
-				captures: captures
+				captures: captures,
+				king: king
 			}
 		}))
 	})
@@ -64,9 +72,13 @@ const removeCaptures = (captures, color) => {
 	node.innerHTML = `+${Number(node.innerHTML) + captures.length}`
 }
 
-const movePiece = ({ id, position, captures }) => {
-	document.getElementById(opponentPrefix() + id).style.transform =
-		`translate(${position.x * 100}%, ${position.y * 100}%)`
+const movePiece = ({ id, position, captures, king }) => {
+	let node = document.getElementById(opponentPrefix() + id);
+	node.style.transform = `translate(${position.x * 100}%, ${position.y * 100}%)`
+
+	if (king)
+		node.src = node.src.replace("piece.svg", "piece-king.svg")
+	
 	removeCaptures(captures, colorPrefix)
 }
 

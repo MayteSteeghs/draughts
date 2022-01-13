@@ -17,12 +17,10 @@ if (!port) {
 
 /* Initialize the routes */
 const app = Express()
-
-app.set("view engine", "ejs");
-app.use(Express.static(__dirname + "/public"));
-
-app.get("/play", indexRouter);
-app.get("/", indexRouter);
+app.set("view engine", "ejs")
+app.use(Express.static(__dirname + "/public"))
+app.get("/", indexRouter)
+app.get("/play", indexRouter)
 
 
 /* Initialize the server and websocket server */
@@ -75,7 +73,8 @@ wss.on("connection", ws => {
 				body: {
 					id: msg.body.id,
 					position: msg.body.new,
-					captures: msg.body.captures
+					captures: msg.body.captures,
+					king: msg.body.king
 				}
 			}, ws)
 			game.move(msg.body)
