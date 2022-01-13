@@ -16,9 +16,13 @@ if (!port) {
 
 /* Initialize the routes */
 const app = Express()
-app.get("/", indexRouter)
-app.get("/play", indexRouter)
-app.use(Express.static(__dirname + "/public"))
+
+app.set("view engine", "ejs");
+app.use(Express.static(__dirname + "/public"));
+
+app.get("/play", indexRouter);
+app.get("/", indexRouter);
+
 
 /* Initialize the server and websocket server */
 const server = Http.createServer(app)

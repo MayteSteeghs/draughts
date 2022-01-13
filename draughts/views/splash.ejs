@@ -10,9 +10,22 @@
 <body>
 	<section id="left">
 		<h1>Draughts</h1>
-		<p>The record for the minimum amount of moves is: 32</p>
-		<p>The average player completes a game in 56 moves</p>
-		<p>There are 3 games currently ongoing</p>
+		<p>The record for the minimum amount of moves is: <%= minimumMoves %></p>
+		<p>The average player completes a game in <%= averageMoves %> 
+			<%if (averageMoves != 1) { %>
+			moves
+			<% } else { %>
+				move
+			<% } %>
+		</p>
+		<p>There are <%= totalGames %> 
+			<%if (totalGames != 1) { %>
+				games
+			<% } else { %>
+				game
+			<% } %>
+			
+			currently ongoing</p>
 		<img src="images/players.png"></img>
 
 		<form action="/play" method="get">
