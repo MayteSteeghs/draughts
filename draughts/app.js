@@ -37,7 +37,7 @@ wss.on("connection", ws => {
 	 */
 	let game = env.games.filter(g => !g.ongoing)[0]
 	if (!game) {
-		game = new Game(env.games.length) /* The number of games servers as a unique game ID */
+		game = new Game()
 		env.games.push(game)
 		game.bluePlayer = ws
 		game.messageClient({ head: Messages.WELCOME, body: Color.BLUE }, ws)

@@ -197,7 +197,6 @@ const calculateMoves = (p, board) => {
 
 /*
  * Signature:
- *     this.id          :: Number
  *     this.board       :: Piece[][]
  *     this.ongoing     :: Boolean
  *     this.bluePlayer  :: WebSocket
@@ -209,8 +208,7 @@ const calculateMoves = (p, board) => {
  *     A class representing a game. It contains the current game state as well as the complete move
  *     history and the websockets of both players.
  */
-const Game = function(gameID) {
-	this.id = gameID
+const Game = function() {
 	this.board = boardInit()
 	this.ongoing = false
 	this.bluePlayer = null
