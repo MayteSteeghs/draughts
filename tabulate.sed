@@ -1,4 +1,4 @@
-#!/bin/sed -Efi
+#!/bin/sed -Ef
 
 # Script to convert spaces to tabs
 # Usage: ./tabulate.sed file1 file2 ... fileN
