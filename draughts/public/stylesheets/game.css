@@ -137,9 +137,10 @@ body > div {
 }
 
 #resign:hover {
-	/* Make the resign button darker and add an outline when you hover over it */
-	border: 3px grey solid;
+	/* Make the resign button darker */
 	background-color: var(--darker-blue);
+
+	cursor: pointer;
 }
 
 #resign p {

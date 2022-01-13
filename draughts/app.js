@@ -45,6 +45,7 @@ wss.on("connection", ws => {
 		game.redPlayer = ws
 		game.ongoing = true
 		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
+		game.messageOpponent({ head: Messages.START }, ws)
 		game.nextTurn()
 	}
 

@@ -113,14 +113,17 @@ ws.addEventListener("message", ({ data }) => {
 	data = JSON.parse(data)
 	switch (data.head) {
 	case Messages.WELCOME:
-		colorPrefix = data.body
 		setupPieceEventListeners()
+		if ((colorPrefix = data.body) == Color.BLUE)
+			alert("You are the blue player! Currently waiting for the opponent to join...")
+		else
+			alert("You are the red player!")
 		break
 	case Messages.RESIGN:
-		console.log("The opponent has resigned, you win!")
+		alert("The opponent has resigned, you win!")
 		break
 	case Messages.DISCONNECT:
-		console.log("The opponent has disconnected, you win!")
+		alert("The opponent has disconnected, you win!")
 		break
 	case Messages.COMMENCE:
 		ourTurn = true

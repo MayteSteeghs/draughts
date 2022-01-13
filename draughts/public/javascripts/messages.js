@@ -4,4 +4,5 @@
 	exports.DISCONNECT = 2 // S --> C :: Inform the client that the opponent disconnected
 	exports.MOVED      = 3 // S <-> C :: Inform the server/opponent that the client has moved a piece
 	exports.WELCOME    = 4 // S --> C :: Inform the client of their color when they join the game
+	exports.START      = 5 // s --> C :: Inform the blue player that they can make the first move
 })(typeof(exports) == "undefined" ? (this.Messages = {}) : exports)
