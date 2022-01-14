@@ -313,8 +313,10 @@ Game.prototype.nextTurn = function() {
 	else
 		this.currentTurn = this.currentTurn == Color.BLUE ? Color.RED : Color.BLUE
 
-	this.messageClient({ head: Messages.COMMENCE, body: this.legalMoves() },
+	this.messageClient({ head: Messages.COMMENCE,
+						 body: { moves: this.legalMoves(), history: this.history } },
 					   this.currentTurn == Color.BLUE ? this.bluePlayer : this.redPlayer)
+	return true
 }
 
 /*
@@ -328,6 +330,8 @@ Game.prototype.nextTurn = function() {
  *     fields. The `old' and `new' fields contain the old and new positions of the piece that was
  *     moved. The `captures' field holds an array of `Piece' objects that were captures and need to
  *     be removed from the game. The `king' field tells us if the piece got promoted to a king.
+ *
+ *     This function also updates the game history according to the official syntax.
  */
 Game.prototype.move = function(msg) {
 	this.board[msg.new.y][msg.new.x] = this.board[msg.old.y][msg.old.x]
@@ -335,6 +339,16 @@ Game.prototype.move = function(msg) {
 	this.board[msg.new.y][msg.new.x].isKing = msg.king
 	this.board[msg.old.y][msg.old.x] = null
 	msg.captures.forEach(c => this.board[c.position.y][c.position.x] = null)
+
+	if (this.history.length == 0 || this.history[this.history.length - 1].red)
+		this.history.push({ blue: moveToHistory(msg.old, msg.new, msg.captures) })
+	else
+		this.history[this.history.length - 1].red = moveToHistory(msg.old, msg.new, msg.captures)
 }
+
+const coordToSquare = (x, y) => 51 - Math.ceil((x + 1) / 2 + 5 * y)
+
+const moveToHistory = (o, n, c) =>
+	`${coordToSquare(o.x, o.y)}${c.length == 0 ? "-" : "x"}${coordToSquare(n.x, n.y)}`
 
 module.exports = Game

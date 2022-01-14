@@ -40,6 +40,12 @@ const addMarker = ({ x, y, captures, king }) => {
 		/* Get the ID of the selected piece so we can include it in the message to the server */
 		let id = selectedPiece.id.slice(1)
 
+		let [o, n] = [{ x: ox, y: oy }, { x: x, y: y }]
+		if (gameHistory.length == 0 || gameHistory[gameHistory.length - 1].red)
+			gameHistory.push({ blue: moveToHistory(o, n, captures) })
+		else
+			gameHistory[gameHistory.length - 1].red = moveToHistory(o, n, captures)
+		drawHistory()
 		removeCaptures(captures, opponentPrefix())
 		
 		/* Move the selected piece, unselect it, remove the markers, and end our turn */
@@ -60,7 +66,8 @@ const addMarker = ({ x, y, captures, king }) => {
 				old: { x: ox, y: oy },
 				new: { x: x, y: y },
 				captures: captures,
-				king: king
+				king: king,
+				history: gameHistory
 			}
 		}))
 	})
@@ -106,6 +113,31 @@ const setupPieceEventListeners = () => {
 		}))
 }
 
+/*
+ * Signature:
+ *     () => Nothing
+ *
+ * Description:
+ *     Draw the game history to the history table on the right. This is done in a bit of a hacky way
+ *     where we effectively generate the HTML on the spot. The history information is read from the
+ *     `gameHistory' global variable.
+ */
+const drawHistory = () => {
+	/* Get a short list of the history array, which only contains the last 8 turns that were played */
+	const shortList = gameHistory.slice(-8).map(h => ({
+		blue: h.blue,
+		red: (typeof(h.red) == "undefined" ? "" : h.red)
+	}))
+
+	let html = ""
+	for (let i = 7; i >= shortList.length; i--)
+		html += `<tr><td class="turn-no">${i + 1}</td><td></td><td></td></tr>`
+	for (let i = shortList.length - 1; i >= 0; i--)
+		html += `<tr><td class="turn-no">${i + 1 + gameHistory.length - shortList.length}</td><td>
+				${shortList[i].blue}</td><td>${shortList[i].red}</td></tr>`
+	document.getElementById("history-body").innerHTML = html
+}
+
 /* Listen for a message from the client, and perform a different action based on the message.
  * The `public/javascripts/game.js' file explains what each of the message headers mean.
  */
@@ -127,10 +159,14 @@ ws.addEventListener("message", ({ data }) => {
 		break
 	case Messages.COMMENCE:
 		ourTurn = true
-		legalMoves = data.body
+		legalMoves = data.body.moves
+		gameHistory = data.body.history
 		break
 	case Messages.MOVED:
 		movePiece(data.body)
+		gameHistory = data.body.history
+		drawHistory()
+		break
 		break
 	}
 })

@@ -75,7 +75,8 @@ wss.on("connection", ws => {
 					id: msg.body.id,
 					position: msg.body.new,
 					captures: msg.body.captures,
-					king: msg.body.king
+					king: msg.body.king,
+					history: msg.body.history
 				}
 			}, ws)
 			game.move(msg.body)
