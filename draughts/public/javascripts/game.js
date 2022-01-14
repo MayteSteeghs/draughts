@@ -1,3 +1,14 @@
+/*
+ * Description:
+ *     This file contains all of the client-side code of the game. It's not as pretty as the server
+ *     code, but it gets the job done. The code in this file is responsible for all of the graphical
+ *     updates on the game screen as well as handling click events and whatnot.
+ */
+
+/* This is basically the enumeration we have in the `public/javascripts/color.js' file, except I
+ * cannot for the life of me get it to import properly, so I suppose we are doing it this way for
+ * now.
+ */
 const Color = {
 	BLUE: "b",
 	RED:  "r"
@@ -6,18 +17,52 @@ const Color = {
 /* Initialize a new web socket to connect to the server */
 const ws = new WebSocket("ws://localhost:3000")
 
-/* Define some variables */
-let legalMoves,    // Array of moves :: Moves that each piece can legally make
-	ourTurn,       // Boolean        :: Is it currently our turn?
-	selectedPiece, // Piece          :: The current HTML piece we have selected
-	colorPrefix    // Color          :: Either Color.BLUE or Color.RED depending on the clients side
+/* Define some global variables */
+let legalMoves,    // Array of moves  :: Moves that each piece can legally make
+	ourTurn,       // Boolean         :: Is it currently our turn?
+	selectedPiece, // Piece           :: The current HTML piece we have selected
+	colorPrefix,   // Color           :: Either Color.BLUE or Color.RED depending on the clients side
+	gameHistory    // List of objects :: The complete history of the game so far
 
+/*
+ * Signature:
+ *     (x: Number, y: Number) => Number
+ *
+ * Description:
+ *     See the comments in this very function in the root directories `game.js'.
+ */
+const coordToSquare = (x, y) => 51 - Math.ceil((x + 1) / 2 + 5 * y)
+
+/*
+ * Signature:
+ *     (o: { x: Number, y: Number }, n: { x: Number, y: Number }, c: Piece[]) => String
+ *
+ * Description:
+ *     See the comments in this very function in the root directories `game.js'.
+ */
+const moveToHistory = (o, n, c) =>
+	`${coordToSquare(o.x, o.y)}${c.length == 0 ? "-" : "x"}${coordToSquare(n.x, n.y)}`
+
+/*
+ * Signature:
+ *     () => Color
+ *
+ * Description:
+ *     Get the color of the opponent. The reason the function is named the way it is has to do with
+ *     the fact that we generally do this to get an ID prefix such as "b" or "r".
+ */
 const opponentPrefix = () => colorPrefix == Color.BLUE ? Color.RED : Color.BLUE
 
-/* Remove all the position markers from the board */
+/*
+ * Signature:
+ *     () => Nothing
+ *
+ * Description:
+ *     Remove all of the position markers from the board.
+ */
 const removeMarkers = () => Array
-							.from(document.getElementsByClassName("position")) // Obtain the markers
-							.forEach(pos => pos.remove())                      // Remove them all
+							.from(document.getElementsByClassName("position"))
+							.forEach(pos => pos.remove())
 
 /* Add a position marker to the position specified by the given coordinates */
 const addMarker = ({ x, y, captures, king }) => {
@@ -73,27 +118,61 @@ const addMarker = ({ x, y, captures, king }) => {
 	})
 }
 
+/*
+ * Signature:
+ *     (Piece[], Color) => Nothing
+ *
+ * Description:
+ *     Remove all of the captured pieces which are specified by the array `captures' of color `color'
+ *     from the board and then update the capture deltas on the side of the screen to reflect the new
+ *     counts.
+ */
 const removeCaptures = (captures, color) => {
-	captures.forEach(p => document.getElementById(color + p.id).remove())
+	captures.forEach(p => document.getElementById(p.color + p.id).remove())
 	let node = document.getElementById(color == Color.BLUE ? "delta-red" : "delta-blue")
 	node.innerHTML = `+${Number(node.innerHTML) + captures.length}`
 }
 
+/*
+ * Signature:
+ *     ({ id: Number, position: { x: Number, y: Number }, captures: Piece[],
+ *                                                        king: Boolean) => Nothing
+ *
+ * Description:
+ *     Move the opponents piece with the ID `id' to the position specified by `position'. Then if the
+ *     `king' flag is set, meaning that the piece became a king, we crown it. Finally we remove all
+ *     of the pieces specified by the `captures' array.
+ */
 const movePiece = ({ id, position, captures, king }) => {
 	let node = document.getElementById(opponentPrefix() + id);
 	node.style.transform = `translate(${position.x * 100}%, ${position.y * 100}%)`
 
+	/* NOTE: It's important that you *dont* do `.replace(".svg", "king.svg")' because a piece may get
+	 *       flagged for crowning multiple times
+	 */
 	if (king)
 		node.src = node.src.replace("piece.svg", "piece-king.svg")
 	
 	removeCaptures(captures, colorPrefix)
 }
 
+/*
+ * Signature:
+ *     () => Nothing
+ *
+ * Description:
+ *     Setup the event listeners for all of the pieces on the board. Each event listener will listen
+ *     for a click event which signals the user selecting a piece. Piece selection should trigger the
+ *     position markers indicating all the valid spots a piece can move to, to appear.
+ */
 const setupPieceEventListeners = () => {
+	/* Get all the pieces from the board and filter them so that we only get the current clients
+	 * pieces. Then for each of the pieces we add an event listener.
+	 */
 	Array
-		.from(document.getElementsByClassName("piece"))   // Get an array of pieces on the HTML board
-		.filter(p => p.id[0] == colorPrefix)              // Get only the pieces of our own color
-		.forEach(p => p.addEventListener("click", () => { // Add an event listener to each piece
+		.from(document.getElementsByClassName("piece"))
+		.filter(p => p.id.startsWith(colorPrefix))
+		.forEach(p => p.addEventListener("click", () => {
 			/* If it's not our turn, do nothing */
 			if (!ourTurn)
 				return
@@ -145,8 +224,9 @@ ws.addEventListener("message", ({ data }) => {
 	data = JSON.parse(data)
 	switch (data.head) {
 	case Messages.WELCOME:
+		colorPrefix = data.body
 		setupPieceEventListeners()
-		if ((colorPrefix = data.body) == Color.BLUE)
+		if (colorPrefix == Color.BLUE)
 			alert("You are the blue player! Currently waiting for the opponent to join...")
 		else
 			alert("You are the red player!")
