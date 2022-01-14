@@ -5,4 +5,5 @@
 	exports.MOVED      = 3 // S <-> C :: Inform the server/opponent that the client has moved a piece
 	exports.WELCOME    = 4 // S --> C :: Inform the client of their color when they join the game
 	exports.START      = 5 // s --> C :: Inform the blue player that they can make the first move
+	exports.GAMEOVER   = 6 // S --> C :: Inform the clients that the game is over
 })(typeof(exports) == "undefined" ? (this.Messages = {}) : exports)

@@ -167,6 +167,12 @@ ws.addEventListener("message", ({ data }) => {
 		gameHistory = data.body.history
 		drawHistory()
 		break
+	case Messages.START:
+		alert("The opponent has joined, you can make your first move.")
+		break
+	case Messages.GAMEOVER:
+		alert(data.body == colorPrefix ? "Congratulations, you have won!"
+									   : "Unfortunately, you have lost...")
 		break
 	}
 })
