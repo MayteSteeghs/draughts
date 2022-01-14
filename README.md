@@ -1,7 +1,7 @@
 Draughts
 ========
 
-This is an implementation of international draughts for CSE1300. It supports all of the following
+This is an implementation of international draughts for CSE1500. It supports all of the following
 features:
 
  - Multiple concurrent games via online multiplayer
