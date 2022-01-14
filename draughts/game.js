@@ -174,7 +174,7 @@ const capturingMoves = (p, captures, board) => {
 
 		if (p.color == Color.BLUE ? p.position.y == 9 : p.position.y == 0)
 			p.isKing = true
-		
+
 		return acc.concat(capturingMoves(p, c, board))
 	}, [])
 }
@@ -296,15 +296,28 @@ Game.prototype.legalMoves = function() {
 
 /*
  * Signature:
- *     () => Nothing
+ *     () => Boolean
  *
  * Description:
  *     Initiate the next turn of the game. This is done by swapping the player that the `currentTurn'
  *     attribute is assigned to and sending the `Messages.COMMENCE' message to the player who's turn
  *     has just begun. In the body of the message we include all the legal moves that the player can
- *     perform.
+ *     perform. Before we do anything though, we first need to check to see if there are still any
+ *     blue or any red pieces on the board. If there aren't any than we know that one player has won
+ *     the game, and we can stop the game.
+ *
+ *     If the game is over, then this function will return `false'. In all other cases it will return
+ *     `true'.
  */
 Game.prototype.nextTurn = function() {
+	const b = this.board.flat().filter(p => p && p.color == Color.BLUE).length
+	const r = this.board.flat().filter(p => p && p.color == Color.RED).length
+
+	if (!(b && r)) {
+		this.messageAll({ head: Messages.GAMEOVER, body: b == 0 ? Color.RED : Color.BLUE })
+		return false
+	}
+
 	/* When the game starts for the first time, `this.currentTurn' will be null, so we let blue make
 	 * the first move.
 	 */
