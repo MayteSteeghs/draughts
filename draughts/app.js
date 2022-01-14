@@ -80,7 +80,9 @@ wss.on("connection", ws => {
 				}
 			}, ws)
 			game.move(msg.body)
-			game.nextTurn()
+
+			if (!game.nextTurn())
+				env.removeGame(game)
 			break
 		}
 	})
