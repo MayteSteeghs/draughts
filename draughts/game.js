@@ -359,8 +359,28 @@ Game.prototype.move = function(msg) {
 		this.history[this.history.length - 1].red = moveToHistory(msg.old, msg.new, msg.captures)
 }
 
+/*
+ * Signature:
+ *     (x: Number, y: Number) => Number
+ *
+ * Description:
+ *     Take a set of coordinates and translate them to the corresponding square number. Draughts
+ *     rules state that the upper-left square is square "1", and each square from left to right,
+ *     up to down, increments by one. The bottom right square is therefor square "50".
+ */
 const coordToSquare = (x, y) => 51 - Math.ceil((x + 1) / 2 + 5 * y)
 
+/*
+ * Signature:
+ *     ({ x: Number, y: Number }, { x: Number, y: Number }, Piece[]) => String
+ *
+ * Description:
+ *     Take an old position specified by `o', a new position specified by `p', and a list of captures
+ *     specified by `captures' and return a string representation of the move that was played. In
+ *     draughts a move is shown by the notation "F-T" where 'F' is the square the piece moved from
+ *     and 'T' is the square the piece moved to. If a capture was made during the move the notation
+ *     changes to "FxT".
+ */
 const moveToHistory = (o, n, c) =>
 	`${coordToSquare(o.x, o.y)}${c.length == 0 ? "-" : "x"}${coordToSquare(n.x, n.y)}`
 

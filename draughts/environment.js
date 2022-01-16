@@ -1,9 +1,22 @@
-/* A class representing the complete environment. It holds all the games currently being played. */
+/*
+ * Signature:
+ *     this.games :: Game[]
+ *
+ * Description:
+ *     An admittedly useless class that mostly exists as a result of code evolution and rewriting. It
+ *     holds an array containing all of the games that are currently ongoing.
+ */
 const Environment = function() {
 	this.games = []
 }
 
-/* Function to remove a game from the environment */
+/*
+ * Signature:
+ *     (Game) => Nothing
+ *
+ * Description:
+ *     Removes the game `game' from the array `this.games'
+ */
 Environment.prototype.removeGame = function(game) {
 	this.games = this.games.filter(g => g != game)
 }

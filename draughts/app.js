@@ -46,6 +46,10 @@ wss.on("connection", ws => {
 		game.redPlayer = ws
 		game.ongoing = true
 		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
+
+		/* Once the red player joins the game, we can officially start this game and inform the blue
+		 * player that he can make his opening move.
+		 */
 		game.messageOpponent({ head: Messages.START }, ws)
 		stats.ongoingGames++
 		stats.totalGames++
@@ -69,6 +73,9 @@ wss.on("connection", ws => {
 	ws.on("message", msg => {
 		msg = JSON.parse(msg)
 		switch (msg.head) {
+		/* When a player resigns we check to see if the game is still ongoing and if it is we
+		 * decrement the `ongoingGames' and `totalGames' counters.
+		 */
 		case Messages.RESIGN:
 			if (game.ongoing && env.games.includes(game)) {
 				game.messageOpponent(msg, ws)
@@ -77,6 +84,11 @@ wss.on("connection", ws => {
 			}
 			env.removeGame(game)
 			break
+
+		/* When the client makes a move, we tell the opponent about the move that was made so that
+		 * they can display the moved pieces on their end. We also tell the game object about the
+		 * move so that it can calculate legal moves for the next turn.
+		 */
 		case Messages.MOVED:
 			game.messageOpponent({
 				head: Messages.MOVED,
@@ -90,6 +102,10 @@ wss.on("connection", ws => {
 			}, ws)
 			game.move(msg.body)
 			
+			/* If this returns false, it means that one of the players won the game. In this case we
+			 * need to update statistics regarding the amount of moves it takes to win a game and
+			 * such. We also need to remove the game.
+			 */
 			if (!game.nextTurn()) {
 				const totalMoves = game.history.length
 
@@ -97,10 +113,9 @@ wss.on("connection", ws => {
 				stats.minimumMoves = Math.min(totalMoves, stats.minimumMoves)
 
 				/* Update average amount of moves in stat tracker */
-				if (stats.averageMoves != Infinity)
-					stats.averageMoves = (stats.averageMoves * (stats.totalGames - 1) + totalMoves) / stats.totalGames
-				else
-					stats.averageMoves = totalMoves
+				stats.averageMoves = stats.averageMoves == Infinity
+					? totalMoves
+					: (stats.averageMoves * (stats.totalGames - 1) + totalMoves) / stats.totalGames
 
 				/* Remove ongoing game */
 				stats.ongoingGames--

@@ -1,10 +1,3 @@
-/*
- * Description:
- *     This file contains all of the client-side code of the game. It's not as pretty as the server
- *     code, but it gets the job done. The code in this file is responsible for all of the graphical
- *     updates on the game screen as well as handling click events and whatnot.
- */
-
 /* This is basically the enumeration we have in the `public/javascripts/color.js' file, except I
  * cannot for the life of me get it to import properly, so I suppose we are doing it this way for
  * now.
@@ -65,35 +58,63 @@ const removeMarkers = () => Array
 							.forEach(pos => pos.remove())
 
 /* Add a position marker to the position specified by the given coordinates */
+/*
+ * Signature:
+ *     ({ x: Number, y: Number, captures: Piece[], king: Boolean }) => Nothing
+ *
+ * Description:
+ *     Add a position marker to the board (those little grey dots) at the position specified by `x'
+ *     and `y'. Then add an event listener to listen for the click event on the position marker which
+ *     will handle moving the selected piece, removing captured pieces and piece promotion.
+ */
 const addMarker = ({ x, y, captures, king }) => {
-	/* Create and add the marker */
-	let img = document.createElement("img")                     // Create a new image element
-	img.className = "piece position"                            // Add it to the correct classes
-	img.style.transform = `translate(${x * 100}%, ${y * 100}%)` // Move it to the correct position
-	img.setAttribute("src", "images/position.svg")              // Assign the actual image to it
-	document.querySelector("#board-container").append(img)      // Add it to the board container
+	/* Create and add the marker by first creating a new image element, giving it the correct CSS
+	 * classes, applying a transformation to it, setting the correct source image, and then adding it
+	 * to the board container.
+	 */
+	let img = document.createElement("img")
+	img.className = "piece position"
+	img.style.transform = `translate(${x * 100}%, ${y * 100}%)`
+	img.setAttribute("src", "images/position.svg")
+	document.querySelector("#board-container").append(img)
 
 	/* Add an event listener to move the selected piece when the marker is clicked */
 	img.addEventListener("click", () => {
-		/* Grab the old positions of the piece */
+		/* Grab the old positions of the piece by getting the transformation of the pieces style
+		 * attribute. This will return a string that looks somewhat like this:
+		 *
+		 *     "transform: translate(300%, 400%);"
+		 *
+		 * We can then use the `match()' method to extract all the numbers with the regex `[0-9]+'
+		 * and then divide them by 100 to get numbers we can index the board with.
+		 */
 		let [ox, oy] = selectedPiece
-						.style             // Get the style attributes
-						.transform         // Get the transformation style attribute
-						.match(/[0-9]+/g)  // Get the percentage offsets in the translation
-						.map(n => n / 100) // Divide them by 100 to get board indicies
+						.style
+						.transform
+						.match(/[0-9]+/g)
+						.map(n => n / 100)
 
 		/* Get the ID of the selected piece so we can include it in the message to the server */
 		let id = selectedPiece.id.slice(1)
 
+		/* Add the move to the game history. If the game history is empty or the `red' attribute of
+		 * the last entry is non-null, it means that we are the blue player and need to push a new
+		 * entry to the history. Otherwise we are red and need to modify the last entry with our move
+		 */
 		let [o, n] = [{ x: ox, y: oy }, { x: x, y: y }]
 		if (gameHistory.length == 0 || gameHistory[gameHistory.length - 1].red)
 			gameHistory.push({ blue: moveToHistory(o, n, captures) })
 		else
 			gameHistory[gameHistory.length - 1].red = moveToHistory(o, n, captures)
 		drawHistory()
+
+		/* Remove all the captured pieces */
 		removeCaptures(captures, opponentPrefix())
 		
-		/* Move the selected piece, unselect it, remove the markers, and end our turn */
+		/* If the piece was promoted during it's move, we make it a king piece. Then we move it to
+		 * the location of the position marker, deselect the piece, end our turn, and remove all of
+		 * the position markers.
+		 */
 		if (king)
 			selectedPiece.src = selectedPiece.src.replace("piece.svg", "piece-king.svg")
 		selectedPiece.style.transform = img.style.transform
@@ -102,7 +123,8 @@ const addMarker = ({ x, y, captures, king }) => {
 		removeMarkers();
 
 		/* Inform the server that we have moved a piece, and tell it where the piece used to be and
-		 * where it has moved to
+		 * where it has moved to. We also send whether or not we promoted our piece and what the new
+		 * game history is.
 		 */
 		ws.send(JSON.stringify({
 			head: Messages.MOVED,
@@ -208,9 +230,11 @@ const drawHistory = () => {
 		red: (typeof(h.red) == "undefined" ? "" : h.red)
 	}))
 
+	/* If the shortlist doesn't have 8 entries, we can start by adding some blank entries */
 	let html = ""
 	for (let i = 7; i >= shortList.length; i--)
 		html += `<tr><td class="turn-no">${i + 1}</td><td></td><td></td></tr>`
+
 	for (let i = shortList.length - 1; i >= 0; i--)
 		html += `<tr><td class="turn-no">${i + 1 + gameHistory.length - shortList.length}</td><td>
 				${shortList[i].blue}</td><td>${shortList[i].red}</td></tr>`
