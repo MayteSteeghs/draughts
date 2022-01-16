@@ -37,6 +37,9 @@ wss.on("connection", ws => {
 	 * to join.
 	 */
 	let game = env.games.filter(g => !g.ongoing)[0]
+	stats.ongoingGames++
+	stats.totalGames++
+	
 	if (!game) {
 		game = new Game()
 		env.games.push(game)
@@ -47,8 +50,6 @@ wss.on("connection", ws => {
 		game.ongoing = true
 		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
 		game.messageOpponent({ head: Messages.START }, ws)
-		stats.ongoingGames++
-		stats.totalGames++
 		game.nextTurn()
 	}
 
