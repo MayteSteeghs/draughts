@@ -1,7 +1,6 @@
 @import "style.css";
 @import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
 
-
 body {
 	/* Set the default font */
 	font-family: "Saira Condensed";
@@ -10,7 +9,6 @@ body {
 	/* Remove the margin on the sides of the screen */
 	margin: 0;
 }
-
 
 .container {
 	display: grid;
@@ -97,6 +95,16 @@ h2 {
   	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+h1::after{
+	display: block;
+    content: "";
+	align-content: left;
+    border-top: .4rem solid white;
+    width: 13rem;
+    margin: 0 0.7rem;
+    transform: translateY(-2rem);
+}
+
 body > div {
 	width: 95%;
 	height: 90vh;
@@ -116,15 +124,26 @@ div > img {
  	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+ }
+
 #button {
 	background-color: var(--light-blue);
 	color: inherit;
 	font-size: calc(50% + 2vw);
 	border: none;
+	animation: fadeIn 1s linear;
 	padding: 5%;
 	margin-left: 25%;
 	margin-top: 10%;
 	cursor: pointer;
+	text-shadow: 2px 2px #000;
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
@@ -144,7 +163,8 @@ div > img {
 }
 
 .how-to-1 > h2::before {
-	content: "1 ";
+	content: "1 - ";
+	font-weight: lighter;
 }
 
 .how-to-2 > img {
@@ -153,7 +173,8 @@ div > img {
 }
 
 .how-to-2 > h2::before {
-	content: "2 ";
+	content: "2 - ";
+	font-weight: lighter;
 }
 
 .how-to-3> img {
@@ -163,5 +184,8 @@ div > img {
 }
 
 .how-to-3 > h2::before {
-	content: "3 ";
+	content: "3 - ";
+	font-weight: lighter;
 }
+
+
