@@ -1,22 +1,13 @@
-/* Ensure we always have good fonts */
-@import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
-
-/* Set some colors */
-:root {
-	--light-blue: #B3E0F2;
-	--blue: #007BBD;
-	--dark-blue: #204C6D;
-	--darker-blue: #302C5D;
-	--red: #9E3C2F;
-}
+@import "style.css";
 
 body {
 	/* Set the default font */
 	font-family: "Saira Condensed";
-
+    
 	/* Remove the margin on the sides of the screen */
 	margin: 0;
 }
+
 
 body > div {
 	/* Take up exactly half the screen */

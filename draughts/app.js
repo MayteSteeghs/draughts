@@ -7,6 +7,8 @@ const Color = require("./public/javascripts/color")
 const Messages = require("./public/javascripts/messages")
 const Environment = require("./environment")
 const indexRouter = require("./routes/index")
+const stats = require("./statTracker");
+const { stat } = require("fs")
 
 /* Get the server port, if the user doesn't provide one then print an error to STDERR and exit */
 const port = process.argv[2]
@@ -46,6 +48,8 @@ wss.on("connection", ws => {
 		game.ongoing = true
 		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
 		game.messageOpponent({ head: Messages.START }, ws)
+		stats.totalGames++
+		stats.ongoingGames++
 		game.nextTurn()
 	}
 
@@ -57,6 +61,8 @@ wss.on("connection", ws => {
 	ws.on("close", () => {
 		if (game.ongoing)
 			game.messageOpponent({ head: Messages.DISCONNECT }, ws)
+		stats.ongoingGames--
+		stats.totalGames--
 		env.removeGame(game)
 	})
 
@@ -66,6 +72,8 @@ wss.on("connection", ws => {
 		case Messages.RESIGN:
 			if (game.ongoing)
 				game.messageOpponent(msg, ws)
+			stats.ongoingGames--
+			stats.totalGames--
 			env.removeGame(game)
 			break
 		case Messages.MOVED:
@@ -80,8 +88,21 @@ wss.on("connection", ws => {
 				}
 			}, ws)
 			game.move(msg.body)
-
+			
 			if (!game.nextTurn())
+				var totalMoves = game.history.length
+				/* Update minimum amount of moves in stat tracker */
+				if (totalMoves < stats.minimumMoves){
+					stats.minimumMoves = totalMoves
+				}
+				/* Update average amount of moves in stat tracker */
+				if (stats.averageMoves != Infinity){
+					stats.averageMoves = (stats.averageMoves * (stats.totalGames - 1) + totalMoves) / stats.totalGames
+				} else {
+					stats.averageMoves = totalMoves
+				}
+				/* Remove ongoing game */
+				stats.ongoingGames--
 				env.removeGame(game)
 			break
 		}
