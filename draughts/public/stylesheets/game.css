@@ -1,6 +1,15 @@
 /* Ensure we always have good fonts */
 @import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
 
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 /* Set some colors */
 :root {
 	--light-blue: #B3E0F2;
@@ -10,20 +19,22 @@
 	--red: #9E3C2F;
 }
 
+html, body {
+	/* Make the body take up the entire screen */
+	margin: 0;
+	height: 100%;
+}
+
 body {
 	/* Set the default font */
 	font-family: "Saira Condensed";
 
-	/* Remove the margin on the sides of the screen */
-	margin: 0;
+	/* Split up the body into 2 halves with a grid */
+	display: grid;
+	grid-template-columns: 50% 50%;
 }
 
 body > div {
-	/* Take up exactly half the screen */
-	width: 50%;
-	height: 100%;
-	position: absolute;
-
 	/* Center all children */
 	display: flex;
 	align-items: center;
@@ -141,6 +152,10 @@ body > div {
 	background-color: var(--darker-blue);
 
 	cursor: pointer;
+}
+
+#resign:active {
+	animation: spin 1s 5 linear;
 }
 
 #resign p {
