@@ -16,22 +16,22 @@
 			<p>The record for the minimum amount of moves is: <%= minimumMoves %></p>
 		<p>The average player completes a game in <%= averageMoves %> 
 			<%if (averageMoves != 1) { %>
-			moves
+				moves
 			<% } else { %>
 				move
 			<% } %>
 		</p>
 		<p>There 
-			<%if (ongoingGames < 1) { %>
-				are
-			<% } else { %>
+			<%if (ongoingGames == 1) { %>
 				is
+			<% } else { %>
+				are
 			<% } %>
 			<%= ongoingGames %> 
-			<%if (ongoingGames < 1) { %>
-				games
-			<% } else { %>
+			<%if (ongoingGames == 1) { %>
 				game
+			<% } else { %>
+				games
 			<% } %>
 			currently ongoing</p>
 		</div>
