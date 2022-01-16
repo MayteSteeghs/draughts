@@ -11,7 +11,8 @@ body {
 	margin: 0;
 }
 
-.container{
+
+.container {
 	display: grid;
 	grid-template-columns: repeat(4, 25%);
 	grid-template-rows: repeat(3, calc(100% / 3));
@@ -21,13 +22,13 @@ body {
 	"players button how-to-3 windmill";
 }
 
-.header{
+.header {
 	grid-area: header;
 	justify-self: left;
 	margin-left:10%;
 }
 
-.stats{
+.stats {
 	grid-area: stats;
 	justify-self: left;
 	margin-left:10%;
@@ -38,7 +39,7 @@ body {
 	grid-area: players;
 }
 
-.button{
+.button {
 	grid-area: button;
 }
 
@@ -67,15 +68,15 @@ body {
 	grid-area: church;
 }
 
-.raadhuis{
+.raadhuis {
 	grid-area: raadhuis;
 }
 
-.windmill{
+.windmill {
 	grid-area: windmill;
 }
 
-.icon > img{
+.icon > img {
 	margin-left: 15%;
 	height: 75%;
 	width: 90%;
@@ -108,7 +109,7 @@ div > p {
 	margin: 0;
 }
 
-div > img{
+div > img {
 	object-fit: contain;
   	width: 100%;
  	max-height: 100%;
@@ -127,11 +128,11 @@ div > img{
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-#button:active{
+#button:active {
 	font-weight: bold;
 }
 
-#button:hover{
+#button:hover {
 	cursor: pointer;
 	background-color: var(--darker-blue)
 }
@@ -148,7 +149,7 @@ div > img{
 
 .how-to-2 > img {
 	justify-self: center;
-	height: 80%;
+	height: 85%;
 }
 
 .how-to-2 > h2::before {
@@ -157,8 +158,8 @@ div > img{
 
 .how-to-3> img {
 	justify-self: center;
-	height: 50%;
-	opacity: 0.9;
+	height: 45%;
+	opacity: 0.8;
 }
 
 .how-to-3 > h2::before {
