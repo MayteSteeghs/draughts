@@ -89,7 +89,7 @@ wss.on("connection", ws => {
 			}, ws)
 			game.move(msg.body)
 			
-			if (!game.nextTurn())
+			if (!game.nextTurn()){
 				var totalMoves = game.history.length
 				/* Update minimum amount of moves in stat tracker */
 				if (totalMoves < stats.minimumMoves){
@@ -104,6 +104,7 @@ wss.on("connection", ws => {
 				/* Remove ongoing game */
 				stats.ongoingGames--
 				env.removeGame(game)
+			}	
 			break
 		}
 	})
