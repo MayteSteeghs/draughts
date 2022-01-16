@@ -5,13 +5,15 @@
 body {
 	/* Set the default font */
 	font-family: "Saira Condensed";
-    background-color: var(--dark-blue);
+
+	background-color: var(--dark-blue);
 	color: white;
+
 	/* Remove the margin on the sides of the screen */
 	margin: 0;
 }
 
-.container{
+.container {
 	display: grid;
 	grid-template-columns: repeat(4, 25%);
 	grid-template-rows: repeat(3, calc(100% / 3));
@@ -21,58 +23,58 @@ body {
 	"players button how-to-3 windmill";
 }
 
-.header{
-	grid-area: header;
+.header {
+	grid-area: "header";
 	justify-self: left;
-	margin-left:10%;
+	margin-left: 10%;
 }
 
-.stats{
-	grid-area: stats;
+.stats {
+	grid-area: "stats";
 	justify-self: left;
-	margin-left:10%;
+	margin-left: 10%;
 	margin-top: 2%;
 }
 
 .icon {
-	grid-area: players;
+	grid-area: "players";
 }
 
-.button{
+.button {
 	grid-area: button;
 }
 
 .how-to-1 {
-	grid-area: how-to-1;
+	grid-area: "how-to-1";
 	display: grid;
-	justify-content:left;
+	justify-content: left;
 	margin-left: 20%;
 }
 
 .how-to-2 {
-	grid-area: how-to-2;
+	grid-area: "how-to-2";
 	display: grid;
-	justify-content:left;
+	justify-content: left;
 	margin-left: 20%;
 }
 
 .how-to-3 {
-	grid-area: how-to-3;
+	grid-area: "how-to-3";
 	display: grid;
-	justify-content:left;
+	justify-content: left;
 	margin-left: 20%;
 }
 
 .church {
-	grid-area: church;
+	grid-area: "church";
 }
 
-.raadhuis{
-	grid-area: raadhuis;
+.raadhuis {
+	grid-area: "raadhuis";
 }
 
-.windmill{
-	grid-area: windmill;
+.windmill {
+	grid-area: "windmill";
 }
 
 .icon > img{
@@ -99,12 +101,12 @@ h2 {
 body > div {
 	width: 95%;
 	height: 90vh;
-	margin-top:8vh;
+	margin-top: 8vh;
 	position: absolute;
 }
 
 div > p {
-	font-size:24px;
+	font-size: 24px;
 	margin: 0;
 }
 
