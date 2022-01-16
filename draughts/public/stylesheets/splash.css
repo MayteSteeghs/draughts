@@ -150,7 +150,7 @@ h2 {
 /* Adds labeling and formattnig for the header*/
 .how-to-1 > h2::before {
 	content: "1 - ";
-	display: list-item;
+	display: list-item-inline;
 	font-weight: lighter;
 }
 
@@ -172,7 +172,7 @@ h2 {
 /* Adds labeling and formattnig for the header*/
 .how-to-2 > h2::before {
 	content: "2 - ";
-	display: list-item;
+	display: list-item-inline;
 	font-weight: lighter;
 }
 
@@ -199,7 +199,7 @@ h2 {
 
 /* Adds labeling and formattnig for the header*/
 .how-to-3 > h2::before {
-	display: list-item;
+	display: list-item-inline;
 	content: "3 - ";
 	font-weight: lighter;
 }

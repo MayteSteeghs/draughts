@@ -9,6 +9,7 @@
 	--red: #9E3C2F;
 }
 
+
 /* Ensures a minimum screen resolution of 800 x 800*/
 @media (max-width: 799px), (max-height: 799px) {
 	body::before {
@@ -25,4 +26,4 @@
 	  background-color: var(--red);
 	  z-index: 100;
 	}
-  }
+}
