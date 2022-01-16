@@ -115,7 +115,7 @@ div > img{
  	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-button {
+#button {
 	background-color: var(--light-blue);
 	color: inherit;
 	font-size: calc(50% + 2vw);
@@ -123,8 +123,17 @@ button {
 	padding: 5%;
 	margin-left: 25%;
 	margin-top: 10%;
-	cursor:pointer;
+	cursor: pointer;
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+#button:active{
+	font-weight: bold;
+}
+
+#button:hover{
+	cursor: pointer;
+	background-color: var(--darker-blue)
 }
 
 .how-to-1 > img {
@@ -133,13 +142,25 @@ button {
 	height: 75%;
 }
 
+.how-to-1 > h2::before {
+	content: "1 ";
+}
+
 .how-to-2 > img {
 	justify-self: center;
 	height: 80%;
+}
+
+.how-to-2 > h2::before {
+	content: "2 ";
 }
 
 .how-to-3> img {
 	justify-self: center;
 	height: 50%;
 	opacity: 0.9;
+}
+
+.how-to-3 > h2::before {
+	content: "3 ";
 }
