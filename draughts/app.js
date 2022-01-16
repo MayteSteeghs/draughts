@@ -101,7 +101,7 @@ wss.on("connection", ws => {
 				}
 			}, ws)
 			game.move(msg.body)
-			
+
 			/* If this returns false, it means that one of the players won the game. In this case we
 			 * need to update statistics regarding the amount of moves it takes to win a game and
 			 * such. We also need to remove the game.
@@ -120,7 +120,7 @@ wss.on("connection", ws => {
 				/* Remove ongoing game */
 				stats.ongoingGames--
 				env.removeGame(game)
-			}	
+			}
 			break
 		}
 	})
