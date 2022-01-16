@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 	res.render("splash.ejs", {
 		minimumMoves: gameStatus.minimumMoves,
 		averageMoves: gameStatus.averageMoves, 
-		totalGames: gameStatus.totalGames
+		ongoingGames: gameStatus.ongoingGames
 	});
 });
 

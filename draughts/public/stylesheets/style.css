@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
+
+/* Set some colors */
+:root {
+	--light-blue: #B3E0F2;
+	--blue: #007BBD;
+	--dark-blue: #204C6D;
+	--darker-blue: #302C5D;
+	--red: #9E3C2F;
+}

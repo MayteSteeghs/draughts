@@ -1,5 +1,4 @@
-/* Ensure we always have good fonts */
-@import url("https://fonts.googleapis.com/css2?family=Saira&family=Saira+Condensed&display=swap");
+@import "style.css";
 
 @keyframes spin {
 	from {
@@ -8,15 +7,6 @@
 	to {
 		transform: rotate(360deg);
 	}
-}
-
-/* Set some colors */
-:root {
-	--light-blue: #B3E0F2;
-	--blue: #007BBD;
-	--dark-blue: #204C6D;
-	--darker-blue: #302C5D;
-	--red: #9E3C2F;
 }
 
 html, body {
@@ -33,6 +23,7 @@ body {
 	display: grid;
 	grid-template-columns: 50% 50%;
 }
+
 
 body > div {
 	/* Center all children */

@@ -8,31 +8,45 @@
 	<title>Draughts</title>
 </head>
 <body>
-	<section id="left">
-		<h1>Draughts</h1>
-		<p>The record for the minimum amount of moves is: 32</p>
-		<p>The average player completes a game in 56 moves</p>
-		<p>There are 3 games currently ongoing</p>
-		<img src="images/players.png"></img>
-
-		<form action="/play" method="get">
-			<button type="submit">PLAY</button>
-		</form>
-	</section>
-
-	<section id="how-to">
-		<p>Move diagonally</p>
-		<p>Take pieces</p>
-		<p>Crown Kings</p>
-	</section>
-	
-	<section id="right">
-		<div id="decoration-left">
+	<div class="container">
+		<div class="header">
+			<h1>Draughts</h1>
+		</div>
+		<div class="stats">
+			<p>The record for the minimum amount of moves is: 32</p>
+			<p>The average player completes a game in 56 moves</p>
+			<p>There are 3 games currently ongoing</p>
+		</div>
+		<div class="icon">
+			<img src="images/players.png"></img>
+		</div>
+		<div class="button">
+			<form action="/play" method="get">
+				<button type="submit">PLAY</button>
+			</form>
+		</div>
+		<div class="how how-to-1">
+			<h2>Move diagonally</h2>
+			<img src="images/how-to-1.png"></img>
+		</div>
+		<div class="how how-to-2">
+			<h2>Take pieces</h2>
+			<img src="images/how-to-2.png"></img>
+		</div>
+		<div class="how how-to-3">
+			<h2>Crown Kings</h2>
+			<img src="images/redpiece-king.svg"></img>
+		</div>
+		<div class="right church">
 			<img src="images/oude-kerk.png"></img>
+		</div>
+		<div class="right raadhuis">
 			<img src="images/raadshuis.png"></img>
+		</div>
+		<div class="right windmill">
 			<img src="images/mill.png"></img>
 		</div>
-	</section>
+	</div>
 	
 </body>
 </html>
