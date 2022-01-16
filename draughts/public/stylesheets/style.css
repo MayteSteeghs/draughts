@@ -8,3 +8,21 @@
 	--darker-blue: #302C5D;
 	--red: #9E3C2F;
 }
+
+/* Ensures a minimum screen resolution of 800 x 800*/
+@media (max-width: 799px), (max-height: 799px) {
+	body::before {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100vw;
+	  height: 100vh;
+	  font-family: Saira;
+	  font-size: 20px;
+	  color: white;
+	  padding: 20px;
+	  content: "Your window is too small! Please zoom out or use a machine with a larger screen resolution";
+	  background-color: var(--red);
+	  z-index: 100;
+	}
+  }

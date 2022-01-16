@@ -10,6 +10,23 @@ body {
 	margin: 0;
 }
 
+/* Resizes body to fit the viewport and ensures position is absolute*/
+body > div {
+	width: 95%;
+	height: 90vh;
+	margin-top:8vh;
+	position: absolute;
+}
+
+/* Adjusts standard rendering of our images. Adds drop shadow and ensures it fits the container*/
+div > img {
+	object-fit: contain;
+  	width: 100%;
+ 	max-height: 100%;
+ 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* set the container class to a 4x3 grid with named areas*/
 .container {
 	display: grid;
 	grid-template-columns: repeat(4, 25%);
@@ -20,66 +37,14 @@ body {
 	"players button how-to-3 windmill";
 }
 
+/* Sets the header class to the header grid-area.*/
 .header {
 	grid-area: header;
 	justify-self: left;
 	margin-left:10%;
 }
 
-.stats {
-	grid-area: stats;
-	justify-self: left;
-	margin-left:10%;
-	margin-top: 2%;
-}
-
-.icon {
-	grid-area: players;
-}
-
-.button {
-	grid-area: button;
-}
-
-.how-to-1 {
-	grid-area: how-to-1;
-	display: grid;
-	justify-content:left;
-	margin-left: 20%;
-}
-
-.how-to-2 {
-	grid-area: how-to-2;
-	display: grid;
-	justify-content:left;
-	margin-left: 20%;
-}
-
-.how-to-3 {
-	grid-area: how-to-3;
-	display: grid;
-	justify-content:left;
-	margin-left: 20%;
-}
-
-.church {
-	grid-area: church;
-}
-
-.raadhuis {
-	grid-area: raadhuis;
-}
-
-.windmill {
-	grid-area: windmill;
-}
-
-.icon > img {
-	margin-left: 15%;
-	height: 75%;
-	width: 90%;
-}
-
+/* Formats the title according to our wireframe*/
 h1 {
 	justify-content: start;
   	font-family: Saira;
@@ -87,14 +52,7 @@ h1 {
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-h2 {
-	font-family: inherit;
-  	font-size: 30px;
-	font-weight: normal;
-	font-style: normal;
-  	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
-
+/* Adds line under title*/
 h1::after{
 	display: block;
     content: "";
@@ -105,25 +63,38 @@ h1::after{
     transform: translateY(-2rem);
 }
 
-body > div {
-	width: 95%;
-	height: 90vh;
-	margin-top:8vh;
-	position: absolute;
+/* Sets the stats class to the stats grid-area. */
+.stats {
+	grid-area: stats;
+	justify-self: left;
+	margin-left:10%;
+	margin-top: 2%;
 }
 
+/* Overrides font-size for paragraphs (particularly those that contain the stats) */
 div > p {
 	font-size:24px;
 	margin: 0;
 }
 
-div > img {
-	object-fit: contain;
-  	width: 100%;
- 	max-height: 100%;
- 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+/* Sets the icon class to the icon area */
+.icon {
+	grid-area: players;
 }
 
+/* Alligns the icon image within the icon div*/
+.icon > img {
+	margin-left: 15%;
+	height: 75%;
+	width: 90%;
+}
+
+/* Sets button class to button grid area*/
+.button {
+	grid-area: button;
+}
+
+/* Play button fade in animation*/
 @keyframes fadeIn {
 	0% {
 		opacity: 0;
@@ -133,6 +104,7 @@ div > img {
 	}
  }
 
+/* Formats our button using the button element id selector*/
 #button {
 	background-color: var(--light-blue);
 	color: inherit;
@@ -147,45 +119,102 @@ div > img {
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+/* change text to bold when clicked*/
 #button:active {
 	font-weight: bold;
 }
 
+/* changes background color of play button when hovered*/
 #button:hover {
 	cursor: pointer;
 	background-color: var(--darker-blue)
 }
 
+/* configures the standard setting for our how-to section headers*/
+h2 {
+	font-family: inherit;
+  	font-size: 30px;
+	font-weight: normal;
+	font-style: normal;
+  	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* Sets the how-to class to the grid area */
+.how-to-1 {
+	grid-area: how-to-1;
+	display: grid;
+	justify-content:left;
+	margin-left: 20%;
+}
+
+/* Adds labeling and formattnig for the header*/
+.how-to-1 > h2::before {
+	content: "1 - ";
+	display: list-item;
+	font-weight: lighter;
+}
+
+/* some specific adjustments for each image within the how-to section to ensure proper allignment*/
 .how-to-1 > img {
 	justify-self: center;
 	width: fit-content;
 	height: 75%;
 }
 
-.how-to-1 > h2::before {
-	content: "1 - ";
+/* Sets the how-to class to the grid area */
+.how-to-2 {
+	grid-area: how-to-2;
+	display: grid;
+	justify-content:left;
+	margin-left: 20%;
+}
+
+/* Adds labeling and formattnig for the header*/
+.how-to-2 > h2::before {
+	content: "2 - ";
+	display: list-item;
 	font-weight: lighter;
 }
 
+/* some specific adjustments for each image within the how-to section to ensure proper allignment*/
 .how-to-2 > img {
 	justify-self: center;
 	height: 85%;
 }
 
-.how-to-2 > h2::before {
-	content: "2 - ";
-	font-weight: lighter;
+/* Sets the how-to class to the grid area */
+.how-to-3 {
+	grid-area: how-to-3;
+	display: grid;
+	justify-content:left;
+	margin-left: 20%;
 }
 
+/* some specific adjustments for each image within the how-to section to ensure proper allignment*/
 .how-to-3> img {
 	justify-self: center;
 	height: 45%;
 	opacity: 0.8;
 }
 
+/* Adds labeling and formattnig for the header*/
 .how-to-3 > h2::before {
+	display: list-item;
 	content: "3 - ";
 	font-weight: lighter;
 }
 
+/* Sets church class to church grid area*/
+.church {
+	grid-area: church;
+}
 
+/* Sets raadhuis class to raadhuis grid area*/
+.raadhuis {
+	grid-area: raadhuis;
+}
+
+/* Sets windmill class to windmill grid area*/
+.windmill {
+	grid-area: windmill;
+}
