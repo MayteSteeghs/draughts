@@ -1,10 +1,5 @@
-/* A class representing the complete environment. It holds all the games as well as some statistics
- * to be displayed on the splash screen.
- */
+/* A class representing the complete environment. It holds all the games currently being played. */
 const Environment = function() {
-	this.minimumMoves = Infinity,
-	this.averageMoves = Infinity,
-	this.totalGames = 0,
 	this.games = []
 }
 

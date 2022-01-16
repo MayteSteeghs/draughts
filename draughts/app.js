@@ -1,14 +1,14 @@
 const Http = require("http")
 const WebSocket = require("ws")
 const Express = require("express")
+const { stat } = require("fs")
 
 const Game = require("./game")
 const Color = require("./public/javascripts/color")
 const Messages = require("./public/javascripts/messages")
 const Environment = require("./environment")
 const indexRouter = require("./routes/index")
-const stats = require("./statTracker");
-const { stat } = require("fs")
+const stats = require("./statTracker")
 
 /* Get the server port, if the user doesn't provide one then print an error to STDERR and exit */
 const port = process.argv[2]
@@ -23,7 +23,6 @@ app.set("view engine", "ejs")
 app.use(Express.static(__dirname + "/public"))
 app.get("/", indexRouter)
 app.get("/play", indexRouter)
-
 
 /* Initialize the server and websocket server */
 const server = Http.createServer(app)
@@ -48,8 +47,8 @@ wss.on("connection", ws => {
 		game.ongoing = true
 		game.messageClient({ head: Messages.WELCOME, body: Color.RED }, ws)
 		game.messageOpponent({ head: Messages.START }, ws)
-		stats.totalGames++
 		stats.ongoingGames++
+		stats.totalGames++
 		game.nextTurn()
 	}
 
@@ -59,9 +58,10 @@ wss.on("connection", ws => {
 	 * array.
 	 */
 	ws.on("close", () => {
-		if (game.ongoing)
+		if (game.ongoing) {
 			game.messageOpponent({ head: Messages.DISCONNECT }, ws)
-		stats.ongoingGames--
+			stats.ongoingGames--
+		}
 		stats.totalGames--
 		env.removeGame(game)
 	})
@@ -89,18 +89,18 @@ wss.on("connection", ws => {
 			}, ws)
 			game.move(msg.body)
 			
-			if (!game.nextTurn()){
-				var totalMoves = game.history.length
+			if (!game.nextTurn()) {
+				const totalMoves = game.history.length
+
 				/* Update minimum amount of moves in stat tracker */
-				if (totalMoves < stats.minimumMoves){
-					stats.minimumMoves = totalMoves
-				}
+				stats.minimumMoves = Math.min(totalMoves, stats.minimumMoves)
+
 				/* Update average amount of moves in stat tracker */
-				if (stats.averageMoves != Infinity){
+				if (stats.averageMoves != Infinity)
 					stats.averageMoves = (stats.averageMoves * (stats.totalGames - 1) + totalMoves) / stats.totalGames
-				} else {
+				else
 					stats.averageMoves = totalMoves
-				}
+
 				/* Remove ongoing game */
 				stats.ongoingGames--
 				env.removeGame(game)
