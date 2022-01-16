@@ -58,11 +58,11 @@ wss.on("connection", ws => {
 	 * array.
 	 */
 	ws.on("close", () => {
-		if (game.ongoing) {
+		if (game.ongoing && env.games.includes(game)) {
 			game.messageOpponent({ head: Messages.DISCONNECT }, ws)
 			stats.ongoingGames--
+			stats.totalGames--
 		}
-		stats.totalGames--
 		env.removeGame(game)
 	})
 
@@ -70,10 +70,11 @@ wss.on("connection", ws => {
 		msg = JSON.parse(msg)
 		switch (msg.head) {
 		case Messages.RESIGN:
-			if (game.ongoing)
+			if (game.ongoing && env.games.includes(game)) {
 				game.messageOpponent(msg, ws)
-			stats.ongoingGames--
-			stats.totalGames--
+				stats.ongoingGames--
+				stats.totalGames--
+			}
 			env.removeGame(game)
 			break
 		case Messages.MOVED:
