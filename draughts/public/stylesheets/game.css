@@ -211,3 +211,25 @@ body > div {
 	cursor: click;
 	background-color: grey;
 }
+
+/* Adds line under title */
+#history-title::after {
+	display: block;
+	content: "";
+	align-content: left;
+	border-top: .4rem solid black;
+	width: 16rem;
+	margin: 0 0.2rem;
+	transform: translateY(-1.3rem);
+}
+
+/* Adds line above title */
+#history-title::before {
+	display: block;
+	content: "";
+	align-content: left;
+	border-top: .4rem solid black;
+	width: 18.4rem;
+	margin: 0 0.2rem;
+	transform: translateY(1.3rem);
+}
