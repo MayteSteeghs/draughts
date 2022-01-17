@@ -10,8 +10,9 @@
 }
 
 
-/* Ensures a minimum screen resolution of 800 x 800*/
-@media (max-width: 799px), (max-height: 799px) {
+
+/* Ensures a minimum screen resolution of 1366x768*/
+@media (max-width: 1366px), (max-height: 768px) {
 	body::before {
 		position: absolute;
 		top: 0;
