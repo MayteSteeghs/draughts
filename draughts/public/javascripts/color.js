@@ -2,4 +2,4 @@
 (function (exports) {
 	exports.BLUE = "b"
 	exports.RED  = "r"
-})(typeof(exports) == "undefined" ? (this.Color == {}) : exports)
+})(typeof(exports) == "undefined" ? (this.Color = {}) : exports)

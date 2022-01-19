@@ -1,12 +1,3 @@
-/* This is basically the enumeration we have in the `public/javascripts/color.js' file, except I
- * cannot for the life of me get it to import properly, so I suppose we are doing it this way for
- * now.
- */
-const Color = {
-	BLUE: "b",
-	RED:  "r"
-}
-
 /* Initialize a new web socket to connect to the server */
 const ws = new WebSocket("ws://localhost:3000")
 
